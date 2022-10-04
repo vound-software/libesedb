@@ -499,6 +499,7 @@ int libesedb_table_definition_append_index_catalog_definition(
 
 		return( -1 );
 	}
+	
 	if( libesedb_list_append_value(
 	     table_definition->index_catalog_definition_list,
 	     (intptr_t *) index_catalog_definition,

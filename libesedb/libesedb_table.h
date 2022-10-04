@@ -36,6 +36,8 @@
 #include "libesedb_table_definition.h"
 #include "libesedb_types.h"
 
+#include "libesedb_stack_PATCH.h"
+
 #if defined( __cplusplus )
 extern "C" {
 #endif
@@ -95,6 +97,13 @@ struct libesedb_internal_table
 	/* The long values cache
 	 */
 	libfcache_cache_t *long_values_cache;
+	
+#ifdef LIBESEDB_RECORD_ACCESS_PATCH
+	/* PATCH: The search tree stack.
+	 */
+	libesedb_tree_node_stack_t* stack;
+#endif
+
 };
 
 int libesedb_table_initialize(
@@ -209,6 +218,21 @@ int libesedb_table_get_record(
      int record_entry,
      libesedb_record_t **record,
      liberror_error_t **error );
+
+
+#ifdef LIBESEDB_RECORD_ACCESS_PATCH
+
+/* Retrieves a specific record
+ * Returns 1 on success or -1 on error.
+ */
+LIBESEDB_EXTERN \
+int libesedb_table_get_next_record(
+     libesedb_table_t *table,
+     libesedb_record_t **record,
+     liberror_error_t **error );
+
+#endif
+
 
 #if defined( __cplusplus )
 }

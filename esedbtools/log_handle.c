@@ -164,10 +164,12 @@ int log_handle_open(
 	}
 	if( filename != NULL )
 	{
+		time_t t;
+		time(&t);
 		log_handle->log_stream = libsystem_file_stream_open(
 		                          filename,
 		                          _LIBCSTRING_SYSTEM_STRING( FILE_STREAM_OPEN_APPEND ) );
-
+		
 		if( log_handle->log_stream == NULL )
 		{
 			liberror_error_set(
@@ -179,6 +181,8 @@ int log_handle_open(
 
 			return( -1 );
 		}
+
+		fprintf (log_handle->log_stream, "\nLogged actions from %s", ctime(&t));
 	}
 	return( 1 );
 }

@@ -44,12 +44,15 @@ int libesedb_compression_7bit_decompress(
      size_t uncompressed_data_size,
      liberror_error_t **error );
 
+
+_declspec(dllexport)
 int libesedb_compression_xpress_decompress_get_size(
      const uint8_t *compressed_data,
      size_t compressed_data_size,
      size_t *uncompressed_data_size,
      liberror_error_t **error );
 
+_declspec(dllexport)
 int libesedb_compression_xpress_decompress(
      const uint8_t *compressed_data,
      size_t compressed_data_size,

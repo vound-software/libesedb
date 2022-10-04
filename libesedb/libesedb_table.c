@@ -454,6 +454,60 @@ int libesedb_table_initialize(
 
 	*table = (libesedb_table_t *) internal_table;
 
+#ifdef LIBESEDB_RECORD_ACCESS_PATCH
+	// The search stack initialization.
+	if ( libesedb_tree_node_stack_create(
+			&internal_table->stack,
+			error) != 1 )
+	{
+		liberror_error_set(
+			 error,
+			 LIBERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			 "%s: unable to create search stack.",
+			 function );
+
+		goto on_error;
+	}
+
+	{
+		libfdata_internal_tree_t *internal_tree = 
+			(libfdata_internal_tree_t *)internal_table->table_values_tree;
+		
+		// Push SEARCH_TERMINATOR element first.
+		if ( libesedb_tree_node_stack_push(
+				internal_table->stack, 
+				NULL,
+				error) != 1) 
+		{
+			liberror_error_set(
+				error,
+				LIBERROR_ERROR_DOMAIN_RUNTIME,
+				LIBERROR_RUNTIME_ERROR_GENERIC,
+				"%s: unable to push SEARCH_TERMINATOR onto the search stack.",
+				function );
+
+			goto on_error;
+		}
+
+		// Push value tree node. 
+		if ( libesedb_tree_node_stack_push(
+				internal_table->stack, 
+				internal_tree->root_node,
+				error) != 1) 
+		{
+			liberror_error_set(
+				error,
+				LIBERROR_ERROR_DOMAIN_RUNTIME,
+				LIBERROR_RUNTIME_ERROR_GENERIC,
+				"%s: unable to push ROOT NODE onto the search stack.",
+				function );
+
+			goto on_error;
+		}
+	}
+#endif // LIBESEDB_RECORD_ACCESS_PATCH
+
 	return( 1 );
 
 on_error:
@@ -1875,4 +1929,3 @@ int libesedb_table_get_record(
 	}
 	return( 1 );
 }
-

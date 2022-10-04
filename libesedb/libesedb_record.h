@@ -295,6 +295,12 @@ int libesedb_record_get_multi_value(
      libesedb_multi_value_t **multi_value,
      liberror_error_t **error );
 
+LIBESEDB_EXTERN \
+int libesedb_check_memory ();
+
+LIBESEDB_EXTERN \
+void enable_memory_leak_debugging();
+
 #if defined( __cplusplus )
 }
 #endif

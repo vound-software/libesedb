@@ -1099,6 +1099,8 @@ int libesedb_page_tree_read_page(
 			return( -1 );
 		}
 	}
+	
+
 	if( libesedb_page_get_number_of_values(
 	     page,
 	     &number_of_page_values,
@@ -1113,6 +1115,7 @@ int libesedb_page_tree_read_page(
 
 		return( -1 );
 	}
+	// printf ("Reading page %x (num_values = %d).\n", page->page_number, number_of_page_values);
 	if( number_of_page_values == 0 )
 	{
 		return( 1 );

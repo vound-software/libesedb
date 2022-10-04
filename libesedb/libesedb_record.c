@@ -3703,3 +3703,37 @@ int libesedb_record_get_multi_value(
 	return( result );
 }
 
+#include <crtdbg.h>
+
+/**
+	This function deallocates memory. 
+	This function is a part of JNA interface. 
+*/
+int libesedb_check_memory () 
+{
+	return _CrtDumpMemoryLeaks();
+}
+
+void enable_memory_leak_debugging() 
+{
+	// _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE  _CRTDBG_MODE_FILE );
+	// _CrtSetReportFile( _CRT_ERROR, _CRTDBG_FILE_STDERR );
+	/*
+	* Set the debug-heap flag to keep freed blocks in the
+	* heap's linked list - This will allow us to catch any
+	* inadvertent use of freed memory
+	*/
+	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;
+	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
+	tmpDbgFlag |= _CRTDBG_CHECK_CRT_DF;
+	_CrtSetDbgFlag(tmpDbgFlag);
+
+	_CrtSetReportMode(_CRT_WARN,   _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
+	_CrtSetReportFile(_CRT_WARN,   _CRTDBG_FILE_STDERR);
+	_CrtSetReportMode(_CRT_ERROR,  _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
+	_CrtSetReportFile(_CRT_ERROR,  _CRTDBG_FILE_STDERR);
+	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
+	_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+}
+

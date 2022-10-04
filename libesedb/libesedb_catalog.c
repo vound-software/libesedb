@@ -839,6 +839,7 @@ int libesedb_catalog_read(
 
 		goto on_error;
 	}
+
 	for( leaf_node_index = 0;
 	     leaf_node_index < number_of_leaf_nodes;
 	     leaf_node_index++ )
@@ -925,7 +926,24 @@ int libesedb_catalog_read(
 			 "%s: unable to read catalog definition.",
 			 function );
 
+#ifdef VOUND_LIBESEDB_BROKEN_CATALOG_DEFINITION_PATCH
+			if (libesedb_catalog_definition_free(
+				&catalog_definition,
+				error) != 1)
+			{
+				liberror_error_set(
+					error,
+					LIBERROR_ERROR_DOMAIN_RUNTIME,
+					LIBERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+					"%s: unable to free catalog definition.",
+					function);
+			}
+			catalog_definition = NULL;
+			// Skip a wrong catalog definition
+			continue;
+#else
 			goto on_error;
+#endif
 		}
 		if( ( catalog_definition->type != LIBESEDB_CATALOG_DEFINITION_TYPE_TABLE )
 		 && ( table_definition == NULL ) )
@@ -952,7 +970,12 @@ int libesedb_catalog_read(
 				 "%s: unable to free catalog definition.",
 				 function );
 
+#ifdef VOUND_LIBESEDB_BROKEN_CATALOG_DEFINITION_PATCH
+				catalog_definition = NULL;
+				continue;
+#else
 				goto on_error;
+#endif
 			}
 			catalog_definition = NULL;
 		}
@@ -1021,6 +1044,7 @@ int libesedb_catalog_read(
 				break;
 
 			case LIBESEDB_CATALOG_DEFINITION_TYPE_INDEX:
+				// printf ("Found index %s\n", catalog_definition->name);
 				if( libesedb_table_definition_append_index_catalog_definition(
 				     table_definition,
 				     catalog_definition,

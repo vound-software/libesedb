@@ -336,7 +336,7 @@ int libesedb_io_handle_read_file_header(
 		 stored_xor32_checksum,
 		 calculated_xor32_checksum );
 
-		goto on_error;
+		// goto on_error;
 	}
 	byte_stream_copy_to_uint32_little_endian(
 	 ( (esedb_file_header_t *) file_header_data )->format_version,

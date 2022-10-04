@@ -1996,7 +1996,7 @@ int export_exchange_record_folders(
 		{
 			fprintf(
 			 record_file_stream,
-			 "\t" );
+			 "|(%d)\t", value_iterator );
 		}
 	}
 	return( 1 );
@@ -2614,15 +2614,11 @@ int export_exchange_record_mailbox(
 		}
 		if( value_iterator == ( number_of_values - 1 ) )
 		{
-			fprintf(
-			 record_file_stream,
-			 "\n" );
+			fprintf(record_file_stream, "|(%d)\n", value_iterator );
 		}
 		else
 		{
-			fprintf(
-			 record_file_stream,
-			 "\t" );
+			fprintf(record_file_stream, "|(%d)\t", value_iterator );
 		}
 	}
 	return( 1 );
@@ -2915,7 +2911,7 @@ int export_exchange_record_msg(
 		{
 			fprintf(
 			 record_file_stream,
-			 "\t" );
+			 "|(%d)\t", value_iterator );
 		}
 	}
 	return( 1 );

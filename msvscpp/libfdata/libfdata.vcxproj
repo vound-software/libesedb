@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="VSDebug|Win32">
+      <Configuration>VSDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="VSDebug|x64">
+      <Configuration>VSDebug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{F94DCC2D-2B49-453E-89B3-FD81992677D0}</ProjectGuid>
+    <RootNamespace>libfdata</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.32203.90</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libbfio;..\..\libfcache;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)libfdata.lib</OutputFile>
+      <ModuleDefinitionFile />
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libbfio;..\..\libfcache;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)libfdata.lib</OutputFile>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libbfio;..\..\libfcache;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)libfdata.lib</OutputFile>
+      <ModuleDefinitionFile />
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libbfio;..\..\libfcache;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)libfdata.lib</OutputFile>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libfdata\libfdata_array_type.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_block.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_block_reference.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_buffer.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_buffer_reference.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_error.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_list.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_list_element.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_notify.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_range.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_reference.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_support.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_tree.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_tree_node.c" />
+    <ClCompile Include="..\..\libfdata\libfdata_vector.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\libfdata\libfdata_array_type.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_block.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_block_reference.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_buffer.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_buffer_reference.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_date_time.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_definitions.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_error.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_extern.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_inline.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_libbfio.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_libfcache.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_list.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_list_element.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_notify.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_range.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_reference.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_support.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_tree.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_tree_node.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_types.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_unused.h" />
+    <ClInclude Include="..\..\libfdata\libfdata_vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libbfio\libbfio.vcxproj">
+      <Project>{41cfafbf-a1c8-4704-afef-31979e6452b9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\liberror\liberror.vcxproj">
+      <Project>{bd3a95fa-a3de-4b79-a889-a7e5eca4b69c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libnotify\libnotify.vcxproj">
+      <Project>{9381bd88-c1d2-4573-9567-5a9d705ae74e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

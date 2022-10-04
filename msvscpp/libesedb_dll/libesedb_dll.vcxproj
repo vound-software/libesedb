@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="VSDebug|Win32">
+      <Configuration>VSDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="VSDebug|x64">
+      <Configuration>VSDebug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{B5225323-AC67-411D-8FBA-199E9467FAB5}</ProjectGuid>
+    <RootNamespace>libesedb</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.32203.90</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>libesedb-x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <TargetName>libesedb-x64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'">
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libuna;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libesedb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libuna;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libesedb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libuna;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libesedb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)libesedb.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)libesedb.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='VSDebug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libuna;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libesedb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)libesedb.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)libesedb.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libesedb\libesedb.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_array_type.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_catalog.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_catalog_definition.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_checksum.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_codepage.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_column.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_column_type.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_compression.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_database.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_debug.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_error.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_file.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_i18n.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_index.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_io_handle.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_lcid.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_legacy.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_list_type.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_long_value.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_multi_value.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_notify.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_page.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_page_tree.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_record.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_support.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_table.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_table_definition.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_values_tree.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_values_tree_value.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\libesedb\esedb_file_header.h" />
+    <ClInclude Include="..\..\libesedb\esedb_page.h" />
+    <ClInclude Include="..\..\libesedb\esedb_page_values.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_array_type.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_catalog.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_catalog_definition.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_checksum.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_codepage.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_column.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_column_type.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_compression.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_database.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_debug.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_definitions.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_error.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_extern.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_file.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_i18n.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_index.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_io_handle.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_lcid.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_legacy.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_libbfio.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_libfdata.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_libfvalue.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_libuna.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_list_type.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_long_value.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_multi_value.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_notify.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_page.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_page_tree.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_record.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_support.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_table.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_table_definition.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_types.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_unused.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_values_tree.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_values_tree_value.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\libesedb\libesedb.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libbfio\libbfio.vcxproj">
+      <Project>{41cfafbf-a1c8-4704-afef-31979e6452b9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libcstring\libcstring.vcxproj">
+      <Project>{20ffc4c9-f44c-45f6-a827-4819b4df3c9f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\liberror\liberror.vcxproj">
+      <Project>{bd3a95fa-a3de-4b79-a889-a7e5eca4b69c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libfcache\libfcache.vcxproj">
+      <Project>{3d19eaad-9195-468b-bc5b-d147a89ca4f5}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libfdata\libfdata.vcxproj">
+      <Project>{f94dcc2d-2b49-453e-89b3-fd81992677d0}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libfdatetime\libfdatetime.vcxproj">
+      <Project>{25c60507-39c6-4564-912d-da2e7482a00f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libfguid\libfguid.vcxproj">
+      <Project>{8c13e498-6369-4792-a0cf-b7134c54561b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libfvalue\libfvalue.vcxproj">
+      <Project>{85005d62-6aa7-4d8a-86cb-4061b23d7c6c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libnotify\libnotify.vcxproj">
+      <Project>{9381bd88-c1d2-4573-9567-5a9d705ae74e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libuna\libuna.vcxproj">
+      <Project>{bc27ff34-c859-4a1a-95d6-fc89952e1910}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
