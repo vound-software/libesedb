@@ -1307,15 +1307,18 @@ int export_handle_export_table(
 		{
 			fprintf(
 			 table_file_stream,
-			 "\n" );
+			 "|(%d)\n", column_iterator);
 		}
 		else
 		{
 			fprintf(
 			 table_file_stream,
-			 "\t" );
+			 "|(%d)\t", column_iterator);
 		}
 	}
+	
+#ifndef LIBESEDB_PERFORMANCE_PATCH
+
 	/* Write the record (row) values to the table file
 	 */
 	if( libesedb_table_get_number_of_records(
@@ -1335,7 +1338,12 @@ int export_handle_export_table(
 	for( record_iterator = 0;
 	     record_iterator < number_of_records;
 	     record_iterator++ )
+#else
+	record_iterator = 0;
+	while(1)
+#endif
 	{
+#ifndef LIBESEDB_PERFORMANCE_PATCH
 		if( libesedb_table_get_record(
 		     table,
 		     record_iterator,
@@ -1352,6 +1360,33 @@ int export_handle_export_table(
 
 			goto on_error;
 		}
+#else
+		record = NULL;
+
+		if (libesedb_table_get_next_record(
+			table, 
+			&record,
+			error) != 1)
+		{
+			libcerror_error_set(
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+				"%s: unable to retrieve next record.",
+				function );
+
+			break;
+		}
+		
+		// No more records - finish the loop.
+		if (record == NULL) 
+		{
+			printf("END OF TABLE.\n");
+			break;
+		}
+
+		printf("Reading record: %d\n", ++record_iterator);
+#endif
 		known_table = 0;
 
 		if( table_name_length == 3 )
@@ -1362,12 +1397,16 @@ int export_handle_export_table(
 			     3 ) == 0 )
 			{
 				known_table = 1;
-
-				result = exchange_export_record_msg(
+				// NEMANJA Commented this line out.
+				if (0) 
+				{
+					result = exchange_export_record_msg(
 				          record,
 				          table_file_stream,
 				          log_handle,
 				          error );
+				}
+				
 			}
 		}
 		else if( table_name_length == 6 )
@@ -2726,12 +2765,15 @@ int export_handle_export_record_value(
 	else if( ( ( value_data_flags & LIBESEDB_VALUE_FLAG_LONG_VALUE ) != 0 )
 	      && ( ( value_data_flags & LIBESEDB_VALUE_FLAG_MULTI_VALUE ) == 0 ) )
 	{
-		result = export_handle_export_long_record_value(
+		// FIX LONG VALUES TREE TRAVERSAL.
+		result = 1;
+			/*
+			export_handle_export_long_record_value(
 		          record,
 		          record_value_entry,
 		          record_file_stream,
 		          log_handle,
-		          error );
+		          error );*/
 
 		if( result == -1 )
 		{

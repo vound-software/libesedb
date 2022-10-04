@@ -25,6 +25,7 @@
 /* Define the earliest supported WINAPI version
 #define WINVER				0x0501
  */
+#define WINVER				0x0501
 
 /* If necessary make sure WINAPI is defined
  */

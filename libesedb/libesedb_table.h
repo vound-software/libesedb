@@ -34,6 +34,10 @@
 #include "libesedb_table_definition.h"
 #include "libesedb_types.h"
 
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+#include "libesedb_perf_patch_stack.h"
+#endif
+
 #if defined( __cplusplus )
 extern "C" {
 #endif
@@ -89,6 +93,20 @@ struct libesedb_internal_table
 	/* The long values cache
 	 */
 	libfcache_cache_t *long_values_cache;
+
+
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+
+	/* PATCH: The tree node search stack.
+	 */
+	libesedb_stack_t* tree_node_search_stack;
+
+	/** The record search stack.
+	 */
+	libesedb_stack_t* table_record_search_stack;
+
+#endif
+
 };
 
 int libesedb_table_initialize(
@@ -202,6 +220,26 @@ int libesedb_table_get_record(
      int record_entry,
      libesedb_record_t **record,
      libcerror_error_t **error );
+
+
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+
+/* Retrieves a specific record
+ * Returns 1 on success or -1 on error.
+ */
+LIBESEDB_EXTERN \
+int libesedb_table_get_next_record(
+     libesedb_table_t *table,
+     libesedb_record_t **record,
+     libcerror_error_t **error );
+
+/** Initializes search stacks in the table if performanse patch is ON.
+ */
+int initialize_search_stacks(
+	 libesedb_internal_table_t*,
+	 libcerror_error_t**);
+
+#endif
 
 #if defined( __cplusplus )
 }

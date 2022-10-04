@@ -1853,7 +1853,8 @@ int exchange_export_record_value_sid(
 			     sid,
 			     value_data,
 			     value_data_size,
-			     LIBFWNT_ENDIAN_BIG,
+			     // LIBFWNT_ENDIAN_BIG,
+				 LIBFWNT_ENDIAN_LITTLE,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
@@ -2466,13 +2467,13 @@ int exchange_export_record_folders(
 		{
 			fprintf(
 			 record_file_stream,
-			 "\n" );
+			 "|(%d)\n", value_entry);
 		}
 		else
 		{
 			fprintf(
 			 record_file_stream,
-			 "\t" );
+			 "|(%d)\t", value_entry);
 		}
 	}
 	return( 1 );
@@ -3159,10 +3160,14 @@ int exchange_export_record_msg(
 
 		return( -1 );
 	}
+	
+	// printf("Number of values: %d.\n", number_of_values);
+
 	for( value_entry = 0;
 	     value_entry < number_of_values;
 	     value_entry++ )
 	{
+		// printf(" - value entry: %d.\n", value_entry);
 #if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libesedb_record_get_utf16_column_name_size(
 		          record,

@@ -118,25 +118,3 @@ stamp-h[1-9]
 /tests/esedb_test_open_close
 /tests/input
 /tests/tmp*
-
-# Local library dependencies specific files
-/libbfio
-/libcdata
-/libcerror
-/libcfile
-/libclocale
-/libcnotify
-/libcpath
-/libcsplit
-/libcstring
-/libcsystem
-/libcthreads
-/libfcache
-/libfdata
-/libfdatetime
-/libfguid
-/libfmapi
-/libfvalue
-/libfwnt
-/libmapidb
-/libuna

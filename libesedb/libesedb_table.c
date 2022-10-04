@@ -418,6 +418,22 @@ int libesedb_table_initialize(
 
 	*table = (libesedb_table_t *) internal_table;
 
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+
+	if (initialize_search_stacks(internal_table, error) != 1) 
+	{
+		libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+			 "%s: unable to initialize search stacks.",
+			 function );
+
+		goto on_error;
+	}
+
+#endif // LIBESEDB_PERFORMANCE_PATCH
+
 	return( 1 );
 
 on_error:

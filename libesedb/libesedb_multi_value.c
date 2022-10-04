@@ -350,7 +350,7 @@ int libesedb_multi_value_get_value_data_size(
 		 function,
 		 multi_value_index );
 
-		return( -1 );
+		//return( -1 );
 	}
 	return( 1 );
 }
