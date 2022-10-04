@@ -2978,6 +2978,27 @@ int libesedb_record_is_multi_value(
 	return( ( data_flags & LIBESEDB_VALUE_FLAG_MULTI_VALUE ) != 0 );
 }
 
+#ifdef HAVE_DEBUG_OUTPUT
+static void print_long_value_key(libesedb_key_t* key, long *count, const char* suffix)
+{
+	printf("%d) key (type: %c, size: %dB, value: ", ++(*count), key->type, key->data_size);
+	for (int i = 0; i < key->data_size; i++) {
+		printf("%02X", key->data[i]);
+	}
+	printf(") - %s\n", suffix);
+}
+
+static void print_data_def(libesedb_data_definition_t *data_def) 
+{
+	printf("datadef: pgNo=%d, pgOff=%d, pgValIdx=%d, dataOff=%d, dataSz=%d\n", 
+		data_def->page_number, 
+		data_def->page_offset, 
+		data_def->page_value_index, 
+		data_def->data_offset, 
+		data_def->data_size);
+}
+#endif
+
 /* Retrieves the long value data segments list of a specific entry
  * Creates a new data segments list
  * Returns 1 if successful, 0 if the item does not contain such value or -1 on error
@@ -2990,7 +3011,6 @@ int libesedb_record_get_long_value_data_segments_list(
      libcerror_error_t **error )
 {
 	uint8_t long_value_segment_key[ 8 ];
-
 	libesedb_data_definition_t *data_definition = NULL;
 	libesedb_key_t *key                         = NULL;
 	static char *function                       = "libesedb_record_get_long_value_data_segments_list";
@@ -3090,7 +3110,9 @@ int libesedb_record_get_long_value_data_segments_list(
 		goto on_error;
 	}
 	key->type = LIBESEDB_KEY_TYPE_LONG_VALUE;
-
+#ifdef HAVE_DEBUG_OUTPUT
+	print_long_value_key(key, &count, "<Long-Value-Key>");
+#endif
 	result = libfdata_btree_get_leaf_value_by_key(
 	          internal_record->long_values_tree,
 	          (intptr_t *) internal_record->file_io_handle,
@@ -3099,7 +3121,7 @@ int libesedb_record_get_long_value_data_segments_list(
 	          (int (*)(intptr_t *, intptr_t *, libcerror_error_t **)) &libesedb_key_compare,
 	          LIBFDATA_BTREE_SEARCH_FLAG_SCAN_NEXT_NODE,
 	          (intptr_t **) &data_definition,
-	          0,
+	          LIBFDATA_EXPORT_LEAF_NODES, // 0
 	          error );
 
 	if( result == -1 )
@@ -3130,6 +3152,9 @@ int libesedb_record_get_long_value_data_segments_list(
 	{
 		return( 0 );
 	}
+#if defined (HAVA_DEBUG_OUTPUT)
+	print_data_def(data_definition);
+#endif
 	if( libesedb_data_definition_read_long_value(
 	     data_definition,
 	     internal_record->file_io_handle,
@@ -3188,7 +3213,10 @@ int libesedb_record_get_long_value_data_segments_list(
 			goto on_error;
 		}
 		key->type = LIBESEDB_KEY_TYPE_LONG_VALUE_SEGMENT;
-
+#ifdef HAVE_DEBUG_OUTPUT		
+		printf("--- READ LONG VALUE SEGMENT (off: %d) ---\n", long_value_segment_offset);
+		print_long_value_key(key, &count, "<Long-Value-Segment-Key>");
+#endif
 		result = libfdata_btree_get_leaf_value_by_key(
 			  internal_record->long_values_tree,
 			  (intptr_t *) internal_record->file_io_handle,
@@ -3197,9 +3225,9 @@ int libesedb_record_get_long_value_data_segments_list(
 		          (int (*)(intptr_t *, intptr_t *, libcerror_error_t **)) &libesedb_key_compare,
 		          LIBFDATA_BTREE_SEARCH_FLAG_SCAN_NEXT_NODE,
 		          (intptr_t **) &data_definition,
-			  0,
+			  LIBFDATA_EXPORT_LEAF_NODES, // 0,
 			  error );
-
+		
 		if( result == -1 )
 		{
 			libcerror_error_set(
@@ -3226,6 +3254,9 @@ int libesedb_record_get_long_value_data_segments_list(
 		}
 		if( result != 0 )
 		{
+#ifdef HAVE_DEBUG_OUTPUT			
+			print_data_def(data_definition);
+#endif
 			if( libesedb_data_definition_read_long_value_segment(
 			     data_definition,
 			     internal_record->file_io_handle,
@@ -3282,9 +3313,9 @@ int libesedb_record_get_long_value(
 	libesedb_internal_record_t *internal_record              = NULL;
 	libfdata_list_t *data_segments_list                      = NULL;
 	libfvalue_value_t *record_value                          = NULL;
-	uint8_t* value_data                                      = NULL;
+	uint8_t* long_value_key_bytes                                      = NULL;
 	static char *function                                    = "libesedb_record_get_long_value";
-	size_t value_data_size                                   = 0;
+	size_t long_value_key_size                                   = 0;
 	uint32_t data_flags                                      = 0;
 	int encoding                                             = 0;
 	int result                                               = 0;
@@ -3416,8 +3447,8 @@ int libesedb_record_get_long_value(
 	}
 	if( libfvalue_value_get_data(
 	     record_value,
-	     &value_data,
-	     &value_data_size,
+	     &long_value_key_bytes,
+	     &long_value_key_size,
 	     &encoding,
 	     error ) != 1 )
 	{
@@ -3430,10 +3461,11 @@ int libesedb_record_get_long_value(
 
 		goto on_error;
 	}
+
 	result = libesedb_record_get_long_value_data_segments_list(
 		  internal_record,
-		  value_data,
-		  value_data_size,
+		  long_value_key_bytes,
+		  long_value_key_size,
 		  &data_segments_list,
 		  error );
 

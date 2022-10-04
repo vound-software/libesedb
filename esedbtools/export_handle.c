@@ -1071,255 +1071,330 @@ on_error:
  * Returns 1 if successful or -1 on error
  */
 int export_handle_export_table(
-     export_handle_t *export_handle,
-     libesedb_table_t *table,
-     int table_index,
-     const system_character_t *table_name,
-     size_t table_name_length,
-     const system_character_t *export_path,
-     size_t export_path_length,
-     log_handle_t *log_handle,
-     libcerror_error_t **error )
+	export_handle_t *export_handle,
+	libesedb_table_t *table,
+	int table_index,
+	const system_character_t *table_name,
+	size_t table_name_length,
+	const system_character_t *export_path,
+	size_t export_path_length,
+	log_handle_t *log_handle,
+	libcerror_error_t **error)
 {
 	system_character_t *item_filename = NULL;
-	system_character_t *value_string  = NULL;
-	libesedb_column_t *column         = NULL;
-	libesedb_record_t *record         = NULL;
-	FILE *table_file_stream           = NULL;
-	static char *function             = "export_handle_export_table";
-	size_t item_filename_size         = 0;
-	size_t value_string_size          = 0;
-	int column_iterator               = 0;
-	int known_table                   = 0;
-	int number_of_columns             = 0;
-	int number_of_records             = 0;
-	int record_iterator               = 0;
-	int result                        = 0;
+	system_character_t *value_string = NULL;
+	libesedb_column_t *column = NULL;
+	libesedb_record_t *record = NULL;
+	FILE *table_file_stream = NULL;
+	static char *function = "export_handle_export_table";
+	size_t item_filename_size = 0;
+	size_t value_string_size = 0;
+	int column_iterator = 0;
+	int known_table = 0;
+	int number_of_columns = 0;
+	int number_of_records = 0;
+	int record_iterator = 0;
+	int result = 0;
 
-	if( table == NULL )
+	if (table == NULL)
 	{
 		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid table.",
-		 function );
+			error,
+			LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+			LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+			"%s: invalid table.",
+			function);
 
-		return( -1 );
+		return(-1);
 	}
-	if( table_name == NULL )
+	if (table_name == NULL)
 	{
 		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid table name.",
-		 function );
+			error,
+			LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+			LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+			"%s: invalid table name.",
+			function);
 
-		return( -1 );
+		return(-1);
 	}
-	if( export_handle_create_item_filename(
-	     export_handle,
-	     table_index,
-	     table_name,
-	     table_name_length,
-	     &item_filename,
-	     &item_filename_size,
-	     error ) != 1 )
+	if (export_handle_create_item_filename(
+		export_handle,
+		table_index,
+		table_name,
+		table_name_length,
+		&item_filename,
+		&item_filename_size,
+		error) != 1)
 	{
 		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create item filename.",
-		 function );
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			"%s: unable to create item filename.",
+			function);
 
 		goto on_error;
 	}
 	result = export_handle_create_text_item_file(
-	          export_handle,
-	          item_filename,
-	          item_filename_size - 1,
-	          export_path,
-	          export_path_length,
-	          &table_file_stream,
-	          error );
+		export_handle,
+		item_filename,
+		item_filename_size - 1,
+		export_path,
+		export_path_length,
+		&table_file_stream,
+		error);
 
-	if( result == -1 )
+	if (result == -1)
 	{
 		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create table file.",
-		 function );
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			"%s: unable to create table file.",
+			function);
 
 		goto on_error;
 	}
-	else if( result == 0 )
+	else if (result == 0)
 	{
 		log_handle_printf(
-		 log_handle,
-		 "Skipping table: %" PRIs_SYSTEM " it already exists.\n",
-		 item_filename );
+			log_handle,
+			"Skipping table: %" PRIs_SYSTEM " it already exists.\n",
+			item_filename);
 
 		memory_free(
-		 item_filename );
+			item_filename);
 
-		return( 1 );
+		return(1);
 	}
 	memory_free(
-	 item_filename );
+		item_filename);
 
 	item_filename = NULL;
 
-	/* Write the column names to the table file
-	 */
-	if( libesedb_table_get_number_of_columns(
-	     table,
-	     &number_of_columns,
-	     0,
-	     error ) != 1 )
+	if (system_string_compare(
+		table_name,
+		_SYSTEM_STRING("Message_"),
+		8) == 0)
+	{
+		printf("Stop here: %s", table_name);
+	}
+	//else {
+	//	return 1;
+	//}
+
+	/*
+	if (table_index == 368) 
+	{
+		// Scan the long values tree and collect leaf nodes. 
+		if (libesedb_traverse_blob_tree(
+			table,
+			0,
+			error) != 1)
+		{
+			libcerror_error_set(
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+				"%s: unable to retrieve long values.",
+				function);
+
+			goto on_error;
+		}
+	}*/
+	/*
+	// Scan the long values tree and collect leaf nodes. 
+	if (libesedb_traverse_blob_tree(
+		table,
+		0,
+		error) == -1)
 	{
 		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve number of columns.",
-		 function );
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+			"%s: unable to retrieve long values.",
+			function);
 
 		goto on_error;
 	}
-	for( column_iterator = 0;
-	     column_iterator < number_of_columns;
-	     column_iterator++ )
+	*/
+	/* Write the column names to the table file
+	 */
+	if (libesedb_table_get_number_of_columns(
+		table,
+		&number_of_columns,
+		0,
+		error) != 1)
 	{
-		if( libesedb_table_get_column(
-		     table,
-		     column_iterator,
-		     &column,
-		     0,
-		     error ) != 1 )
+		libcerror_error_set(
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+			"%s: unable to retrieve number of columns.",
+			function);
+
+		goto on_error;
+	}
+	for (column_iterator = 0;
+		column_iterator < number_of_columns;
+		column_iterator++)
+	{
+		if (libesedb_table_get_column(
+			table,
+			column_iterator,
+			&column,
+			0,
+			error) != 1)
 		{
 			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to retrieve column: %d.",
-			 function,
-			 column_iterator );
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+				"%s: unable to retrieve column: %d.",
+				function,
+				column_iterator);
 
 			goto on_error;
 		}
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libesedb_column_get_utf16_name_size(
-		          column,
-		          &value_string_size,
-		          error );
+			column,
+			&value_string_size,
+			error);
 #else
 		result = libesedb_column_get_utf8_name_size(
-		          column,
-		          &value_string_size,
-		          error );
+			column,
+			&value_string_size,
+			error);
 #endif
-		if( result != 1 )
+		if (result != 1)
 		{
 			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to retrieve the size of the column name.",
-			 function );
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+				"%s: unable to retrieve the size of the column name.",
+				function);
 
 			goto on_error;
 		}
-		if( value_string_size == 0 )
+		if (value_string_size == 0)
 		{
 			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-			 "%s: missing column name.",
-			 function );
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
+				"%s: missing column name.",
+				function);
 
 			goto on_error;
 		}
 		value_string = system_string_allocate(
-		                value_string_size );
+			value_string_size);
 
-		if( value_string == NULL )
+		if (value_string == NULL)
 		{
 			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_MEMORY,
-			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-			 "%s: unable to create column name string.",
-			 function );
+				error,
+				LIBCERROR_ERROR_DOMAIN_MEMORY,
+				LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+				"%s: unable to create column name string.",
+				function);
 
 			goto on_error;
 		}
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libesedb_column_get_utf16_name(
-		          column,
-		          (uint16_t *) value_string,
-		          value_string_size,
-		          error );
+			column,
+			(uint16_t *)value_string,
+			value_string_size,
+			error);
 #else
 		result = libesedb_column_get_utf8_name(
-		          column,
-		          (uint8_t *) value_string,
-		          value_string_size,
-		          error );
+			column,
+			(uint8_t *)value_string,
+			value_string_size,
+			error);
 #endif
-		if( result != 1 )
+		if (result != 1)
 		{
 			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to retrieve the column name.",
-			 function );
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+				"%s: unable to retrieve the column name.",
+				function);
 
 			goto on_error;
 		}
 		fprintf(
-		 table_file_stream,
-		 "%" PRIs_SYSTEM "",
-		 value_string );
+			table_file_stream,
+			"%" PRIs_SYSTEM "",
+			value_string);
 
 		memory_free(
-		 value_string );
+			value_string);
 
 		value_string = NULL;
 
-		if( libesedb_column_free(
-		     &column,
-		     error ) != 1 )
+		if (libesedb_column_free(
+			&column,
+			error) != 1)
 		{
 			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free column.",
-			 function );
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				"%s: unable to free column.",
+				function);
 
 			goto on_error;
 		}
-		if( column_iterator == ( number_of_columns - 1 ) )
+		if (column_iterator == (number_of_columns - 1))
 		{
 			fprintf(
-			 table_file_stream,
-			 "\n" );
+				table_file_stream,
+				"\n");
 		}
 		else
 		{
 			fprintf(
-			 table_file_stream,
-			 "\t" );
+				table_file_stream,
+				"|(%d)\t", column_iterator);
 		}
 	}
+
 	/* Write the record (row) values to the table file
 	 */
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+	while ( 1 ) {
+
+		if (libesedb_table_get_next_record(
+			table,
+			&record,
+			error) != 1)
+		{
+			libcerror_error_set(
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+				"%s: unable to retrieve record: %d.",
+				function,
+				record_iterator);
+
+			goto on_error;
+		}
+
+		// NULL record indicates the end of the search.
+		if (record == NULL)
+		{
+			break;
+		}
+
+		
+#else
 	if( libesedb_table_get_number_of_records(
 	     table,
 	     &number_of_records,
@@ -1354,6 +1429,7 @@ int export_handle_export_table(
 
 			goto on_error;
 		}
+#endif
 		known_table = 0;
 
 		if( table_name_length == 3 )
@@ -1527,6 +1603,7 @@ int export_handle_export_table(
 				          error );
 			}
 		}
+		
 		if( known_table == 0 )
 		{
 			result = export_handle_export_record(
@@ -1564,6 +1641,7 @@ int export_handle_export_table(
 			break;
 		}
 	}
+
 	if( file_stream_close(
 	     table_file_stream ) != 0 )
 	{
@@ -2411,13 +2489,13 @@ int export_handle_export_record(
 		{
 			fprintf(
 			 record_file_stream,
-			 "\n" );
+			 "|(%d)\n", value_iterator );
 		}
 		else
 		{
 			fprintf(
 			 record_file_stream,
-			 "\t" );
+			 "|(%d)\t", value_iterator );
 		}
 	}
 	return( 1 );
@@ -2728,13 +2806,17 @@ int export_handle_export_record_value(
 	else if( ( ( value_data_flags & LIBESEDB_VALUE_FLAG_LONG_VALUE ) != 0 )
 	      && ( ( value_data_flags & LIBESEDB_VALUE_FLAG_MULTI_VALUE ) == 0 ) )
 	{
+		result = 1;
+		// printf("Disabled export_handle_export_long_record_value");
+		/*
 		result = export_handle_export_long_record_value(
 		          record,
 		          record_value_entry,
 		          record_file_stream,
 		          log_handle,
 		          error );
-
+		*/
+		
 		if( result == -1 )
 		{
 			libcerror_error_set(

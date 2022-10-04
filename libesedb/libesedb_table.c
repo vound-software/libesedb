@@ -39,6 +39,12 @@
 #include "libesedb_table_definition.h"
 #include "libesedb_types.h"
 
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+#include "libesedb_performance_patch.h"
+#include "libesedb_stack_PATCH.h"
+#endif
+
+
 /* Creates a table
  * Make sure the value table is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
@@ -418,59 +424,224 @@ int libesedb_table_initialize(
 
 	*table = (libesedb_table_t *) internal_table;
 
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+
+	// Initialize the nodes tree search stack. 
+	if (libesedb_stack_create(
+		&internal_table->nodes_stack,
+		error) != 1)
+	{
+		libcerror_error_set(
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			"%s: unable to create the tree search stack.",
+			function);
+
+		goto on_error;
+	}
+
+	// Initialize the record definitions search stack. 
+	if (libesedb_stack_create(
+		&internal_table->record_definitions_stack,
+		error) != 1)
+	{
+		libcerror_error_set(
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			"%s: unable to create the record definitions search stack.",
+			function);
+
+		goto on_error;
+	}
+
+	// Initialize blob btree search stack
+	if (libesedb_stack_create(
+		&internal_table->blob_btree_nodes_stack,
+		error) != 1) 
+	{
+		libcerror_error_set(
+			error,
+			LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			"%s: unable to create the blob btree search stack.",
+			function);
+
+		goto on_error;
+	}
+
+	// Initialize search stacks
+	{
+		libfdata_internal_btree_t *internal_tree = (libfdata_internal_btree_t *)internal_table->table_values_tree;
+		libfdata_btree_range_t *btree_node_data_range_clone = NULL;
+		
+		if (libesedb_libfdata_btree_range_clone(
+			internal_tree->root_node_data_range,
+			&btree_node_data_range_clone,
+			error) == -1)
+		{
+			libcerror_error_set(
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GENERIC,
+				"%s: unable to clone a B-tree root node data range object.",
+				function);
+
+			goto on_error;
+		}
+
+		// Push value tree node. 
+		if (libesedb_stack_push(
+			internal_table->nodes_stack,
+			btree_node_data_range_clone, // internal_tree->root_node_data_range,
+			error) != 1)
+		{
+			libcerror_error_set(
+				error,
+				LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				LIBCERROR_RUNTIME_ERROR_GENERIC,
+				"%s: unable to push ROOT NODE onto the search stack.",
+				function);
+
+			goto on_error;
+		}
+
+		// Init the BLOB b-tree search stack (if a btree exists)
+		if (internal_table->long_values_tree != NULL) 
+		{
+			libfdata_internal_btree_t *internal_btree = (libfdata_internal_btree_t*)internal_table->long_values_tree;
+
+			if (internal_btree->root_node_data_range == NULL)
+			{
+				libcerror_error_set(
+					error,
+					LIBCERROR_ERROR_DOMAIN_RUNTIME,
+					LIBCERROR_RUNTIME_ERROR_GENERIC,
+					"%s: unable to initialize BLOB b-tree search stack.",
+					function);
+				return -1;
+			}
+
+			{ // Place blob btree root node onto the search stack 
+				btree_node_info_t *btree_node_info = memory_allocate_structure(btree_node_info_t);
+				btree_node_info->is_leaf_node = 0;
+				btree_node_info->node_data = NULL;
+
+				if (libesedb_libfdata_btree_range_clone(
+					internal_btree->root_node_data_range,
+					(libfdata_btree_range_t**) &(btree_node_info->node_data),
+					error) == -1)
+				{
+					libcerror_error_set(
+						error,
+						LIBCERROR_ERROR_DOMAIN_RUNTIME,
+						LIBCERROR_RUNTIME_ERROR_GENERIC,
+						"%s: unable to clone a B-tree root node data range object.",
+						function);
+
+					goto on_error;
+				}
+				
+				// Push value tree node. 
+				if (libesedb_stack_push(
+					internal_table->blob_btree_nodes_stack,
+					btree_node_info,
+					error) != 1)
+				{
+					libcerror_error_set(
+						error,
+						LIBCERROR_ERROR_DOMAIN_RUNTIME,
+						LIBCERROR_RUNTIME_ERROR_GENERIC,
+						"%s: unable to push ROOT NODE onto the search stack.",
+						function);
+
+					return(-1);
+				}
+			}
+		}
+
+		internal_table->mapped_leaf_value_first_index = 0;
+	}
+#endif // LIBESEDB_PERFORMANCE_PATCH
+
 	return( 1 );
 
 on_error:
-	if( internal_table != NULL )
+	if (internal_table != NULL)
 	{
-		if( internal_table->long_values_cache != NULL )
+		if (internal_table->long_values_cache != NULL)
 		{
 			libfcache_cache_free(
-			 &( internal_table->long_values_cache ),
-			 NULL );
+				&(internal_table->long_values_cache),
+				NULL);
 		}
-		if( internal_table->long_values_tree != NULL )
+		if (internal_table->long_values_tree != NULL)
 		{
 			libfdata_btree_free(
-			 &( internal_table->long_values_tree ),
-			 NULL );
+				&(internal_table->long_values_tree),
+				NULL);
 		}
-		if( internal_table->long_values_pages_cache != NULL )
+		if (internal_table->long_values_pages_cache != NULL)
 		{
 			libfcache_cache_free(
-			 &( internal_table->long_values_pages_cache ),
-			 NULL );
+				&(internal_table->long_values_pages_cache),
+				NULL);
 		}
-		if( internal_table->long_values_pages_vector != NULL )
+		if (internal_table->long_values_pages_vector != NULL)
 		{
 			libfdata_vector_free(
-			 &( internal_table->long_values_pages_vector ),
-			 NULL );
+				&(internal_table->long_values_pages_vector),
+				NULL);
 		}
-		if( internal_table->table_values_cache != NULL )
+		if (internal_table->table_values_cache != NULL)
 		{
 			libfcache_cache_free(
-			 &( internal_table->table_values_cache ),
-			 NULL );
+				&(internal_table->table_values_cache),
+				NULL);
 		}
-		if( internal_table->table_values_tree != NULL )
+		if (internal_table->table_values_tree != NULL)
 		{
 			libfdata_btree_free(
-			 &( internal_table->table_values_tree ),
-			 NULL );
+				&(internal_table->table_values_tree),
+				NULL);
 		}
-		if( internal_table->pages_cache != NULL )
+		if (internal_table->pages_cache != NULL)
 		{
 			libfcache_cache_free(
-			 &( internal_table->pages_cache ),
-			 NULL );
+				&(internal_table->pages_cache),
+				NULL);
 		}
-		if( internal_table->pages_vector != NULL )
+		if (internal_table->pages_vector != NULL)
 		{
 			libfdata_vector_free(
-			 &( internal_table->pages_vector ),
-			 NULL );
+				&(internal_table->pages_vector),
+				NULL);
 		}
+
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+		if (internal_table->nodes_stack != NULL)
+		{
+			libesedb_stack_free(
+				&(internal_table->nodes_stack),
+				1, // delete data
+				NULL);
+		}
+		if (internal_table->record_definitions_stack != NULL)
+		{
+			libesedb_stack_free(
+				&(internal_table->record_definitions_stack),
+				1, // delete data
+				NULL);
+		}
+		if (internal_table->blob_btree_nodes_stack != NULL)
+		{
+			libesedb_stack_free(
+				&(internal_table->blob_btree_nodes_stack),
+				1, // delete data
+				NULL);
+		}
+#endif
 		memory_free(
 		 internal_table );
 	}
@@ -482,12 +653,11 @@ on_error:
  */
 int libesedb_table_free(
      libesedb_table_t **table,
-     libcerror_error_t **error )
+     libcerror_error_t **error)
 {
 	libesedb_internal_table_t *internal_table = NULL;
 	static char *function                     = "libesedb_table_free";
 	int result                                = 1;
-
 	if( table == NULL )
 	{
 		libcerror_error_set(
@@ -503,7 +673,7 @@ int libesedb_table_free(
 	{
 		internal_table = (libesedb_internal_table_t *) *table;
 		*table         = NULL;
-
+		
 		/* The io_handle, file_io_handle and table_definition references
 		 * are freed elsewhere
 		 */
@@ -532,7 +702,7 @@ int libesedb_table_free(
 			 function );
 
 			result = -1;
-		}
+		}		
 		if( internal_table->long_values_pages_vector != NULL )
 		{
 			if( libfdata_vector_free(
@@ -623,6 +793,30 @@ int libesedb_table_free(
 				result = -1;
 			}
 		}
+
+#if defined(LIBESEDB_PERFORMANCE_PATCH)
+		if (internal_table->nodes_stack != NULL)
+		{
+			libesedb_stack_free(
+				&(internal_table->nodes_stack),
+				1, // delete data
+				NULL);
+		}
+		if (internal_table->record_definitions_stack != NULL)
+		{
+			libesedb_stack_free(
+				&(internal_table->record_definitions_stack),
+				1, // delete data
+				NULL);
+		}
+		if (internal_table->blob_btree_nodes_stack != NULL)
+		{
+			libesedb_stack_free(
+				&(internal_table->blob_btree_nodes_stack),
+				1, // delete data
+				NULL);
+		}
+#endif
 		memory_free(
 		 internal_table );
 	}

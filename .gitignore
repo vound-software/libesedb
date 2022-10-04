@@ -148,22 +148,3 @@ stamp-h[1-9]
 /tests/input
 /tests/tmp*
 
-# Local library dependencies specific files
-/libbfio
-/libcdata
-/libcerror
-/libcfile
-/libclocale
-/libcnotify
-/libcpath
-/libcsplit
-/libcthreads
-/libfcache
-/libfdata
-/libfdatetime
-/libfguid
-/libfmapi
-/libfvalue
-/libfwnt
-/libmapidb
-/libuna

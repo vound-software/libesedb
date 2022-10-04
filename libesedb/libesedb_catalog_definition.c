@@ -285,7 +285,11 @@ int libesedb_catalog_definition_read(
 
 		return( -1 );
 	}
-	if( last_fixed_size_data_type > 11 )
+#ifndef EDB_CATALOG_PATCH_LAST_FIXED_SIZE_DATA_TYPE
+	if (last_fixed_size_data_type > 11)
+#else
+	if (last_fixed_size_data_type > 12)
+#endif // !EDB_CATALOG_PATCH_LAST_FIXED_SIZE_DATA_TYPE
 	{
 		libcerror_error_set(
 		 error,
@@ -307,6 +311,10 @@ int libesedb_catalog_definition_read(
 	 */
 	switch( last_fixed_size_data_type )
 	{
+#ifdef EDB_CATALOG_PATCH_LAST_FIXED_SIZE_DATA_TYPE
+		case 12: 
+			calculated_variable_size_data_types_offset += 4;
+#endif // !EDB_CATALOG_PATCH_LAST_FIXED_SIZE_DATA_TYPE
 		case 11:
 			calculated_variable_size_data_types_offset += 2;
 		case 10:

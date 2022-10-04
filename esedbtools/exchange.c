@@ -3099,7 +3099,7 @@ int exchange_export_record_mailbox(
 		{
 			fprintf(
 			 record_file_stream,
-			 "\t" );
+			 "|(%d)\t", value_entry );
 		}
 	}
 	return( 1 );

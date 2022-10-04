@@ -34,6 +34,11 @@
 #include "libesedb_table_definition.h"
 #include "libesedb_types.h"
 
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+#include "libesedb_stack_PATCH.h"
+#endif
+
+
 #if defined( __cplusplus )
 extern "C" {
 #endif
@@ -89,6 +94,21 @@ struct libesedb_internal_table
 	/* The long values cache
 	 */
 	libfcache_cache_t *long_values_cache;
+
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+	/* PATCH: The search tree stack of tree nodes. */
+	libesedb_stack_t *nodes_stack;
+
+	/* PATCH: A stack of record definitions (leaf nodes in a btree). */
+	libesedb_stack_t *record_definitions_stack;
+
+	/* PATCH: A stack of record definitions (leaf nodes in a btree). */
+	libesedb_stack_t *blob_btree_nodes_stack;
+
+	// PATCH: leaf value index counter
+	int mapped_leaf_value_first_index;
+#endif
+
 };
 
 int libesedb_table_initialize(
@@ -202,6 +222,47 @@ int libesedb_table_get_record(
      int record_entry,
      libesedb_record_t **record,
      libcerror_error_t **error );
+
+
+#ifdef LIBESEDB_PERFORMANCE_PATCH
+
+/* Retrieves next record from the table.
+ * Returns 1 on success or -1 on error.
+ */
+LIBESEDB_EXTERN \
+int libesedb_table_get_next_record(
+	libesedb_table_t *table,
+	libesedb_record_t **record,
+	libcerror_error_t **error);
+
+/* Retrieves next blob segment from the table's blob btree
+ * Returns 1 on success, 0 on end, or -1 on error.
+ */
+LIBESEDB_EXTERN \
+int libesedb_table_get_next_blob_segment(
+	libesedb_table_t *table,
+	size_t *blobSegmentKeySize,
+	uint8_t **blobSegmentKeyBytes,
+	size_t *blobSegmentDataSize,
+	uint8_t **blobSegmentDataBytes,
+	libcerror_error_t **error);
+
+/* Deallocates memory for a given byte array
+ * Return 1 on success or -1 on error.
+ */
+LIBESEDB_EXTERN \
+int libesedb_memory_free_byte_array(
+	uint8_t **byte_array,
+	libcerror_error_t **error);
+
+
+LIBESEDB_EXTERN \
+int libesedb_traverse_blob_tree(
+	libesedb_table_t *table,
+	uint8_t read_flags,
+	libcerror_error_t **error);
+
+#endif
 
 #if defined( __cplusplus )
 }

@@ -335,6 +335,18 @@ int libesedb_record_get_multi_value(
      libesedb_multi_value_t **multi_value,
      libcerror_error_t **error );
 
+#if defined(LIBESEDB_PERFORMANCE_PATCH)
+
+LIBESEDB_EXTERN \
+int libesedb_record_get_long_value_key(
+	libesedb_record_t *record,
+	int value_entry,
+	uint8_t **long_value_key_bytes,
+	size_t *long_value_key_size,
+	libcerror_error_t **error);
+
+#endif
+
 #if defined( __cplusplus )
 }
 #endif
