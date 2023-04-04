@@ -110,7 +110,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\libcerror;..\..\libcdata;..\..\libclocale;..\..\libcnotify;..\..\libcsplit;..\..\libuna;..\..\libcfile;..\..\libcpath;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libfwnt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBCSTRING;HAVE_LOCAL_LIBCERROR;HAVE_LOCAL_LIBCDATA;HAVE_LOCAL_LIBCLOCALE;HAVE_LOCAL_LIBCNOTIFY;HAVE_LOCAL_LIBCSPLIT;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBCFILE;HAVE_LOCAL_LIBCPATH;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;HAVE_LOCAL_LIBFWNT;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBCSTRING;HAVE_LOCAL_LIBCERROR;HAVE_LOCAL_LIBCDATA;HAVE_LOCAL_LIBCLOCALE;HAVE_LOCAL_LIBCNOTIFY;HAVE_LOCAL_LIBCSPLIT;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBCFILE;HAVE_LOCAL_LIBCPATH;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;HAVE_LOCAL_LIBFWNT;LIBESEDB_DLL_EXPORT;LIBESEDB_PERFORMANCE_PATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <CompileAs>CompileAsC</CompileAs>
@@ -191,6 +191,8 @@
     <ClCompile Include="..\..\libesedb\libesedb_notify.c" />
     <ClCompile Include="..\..\libesedb\libesedb_page.c" />
     <ClCompile Include="..\..\libesedb\libesedb_page_tree.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_perf_patch_api.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_perf_patch_stack.c" />
     <ClCompile Include="..\..\libesedb\libesedb_record.c" />
     <ClCompile Include="..\..\libesedb\libesedb_record_value.c" />
     <ClCompile Include="..\..\libesedb\libesedb_support.c" />
@@ -237,6 +239,8 @@
     <ClInclude Include="..\..\libesedb\libesedb_notify.h" />
     <ClInclude Include="..\..\libesedb\libesedb_page.h" />
     <ClInclude Include="..\..\libesedb\libesedb_page_tree.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_perf_patch_api.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_perf_patch_stack.h" />
     <ClInclude Include="..\..\libesedb\libesedb_record.h" />
     <ClInclude Include="..\..\libesedb\libesedb_record_value.h" />
     <ClInclude Include="..\..\libesedb\libesedb_support.h" />

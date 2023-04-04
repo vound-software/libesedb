@@ -105,6 +105,12 @@
     <ClCompile Include="..\..\libesedb\libesedb_value_data_handle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libesedb\libesedb_perf_patch_api.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libesedb\libesedb_perf_patch_stack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libesedb\esedb_file_header.h">
@@ -246,6 +252,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libesedb\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libesedb\libesedb_perf_patch_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libesedb\libesedb_perf_patch_stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
