@@ -95,12 +95,6 @@ stamp-h1
 /common/types.h
 /dpkg/changelog
 /dpkg/copyright
-/include/libesedb.h
-/include/libesedb/definitions.h
-/include/libesedb/features.h
-/include/libesedb/types.h
-/libesedb/libesedb.rc
-/libesedb/libesedb_definitions.h
 /macosx/Introduction.rtf
 /macosx/libesedb.pmdoc/01bin.xml
 /macosx/libesedb.pmdoc/02include.xml

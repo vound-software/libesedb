@@ -105,6 +105,12 @@
     <ClCompile Include="..\..\libesedb\libesedb_values_tree_value.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libesedb\libesedb_stack_PATCH.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libesedb\libesedb_utils_patch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libesedb\esedb_file_header.h">
@@ -225,6 +231,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libesedb\libesedb_values_tree_value.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libesedb\libesedb_stack_PATCH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

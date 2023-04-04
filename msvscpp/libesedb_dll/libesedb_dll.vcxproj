@@ -93,9 +93,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libuna;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libesedb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;LIBESEDB_RECORD_ACCESS_PATCH;VOUND_LIBESEDB_BROKEN_CATALOG_DEFINITION_PATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
@@ -109,9 +109,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\common;..\..\libcstring;..\..\liberror;..\..\libnotify;..\..\libuna;..\..\libbfio;..\..\libfcache;..\..\libfdata;..\..\libfdatetime;..\..\libfguid;..\..\libfvalue;..\..\libesedb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBBFIO;HAVE_LOCAL_LIBFCACHE;HAVE_LOCAL_LIBFDATA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFVALUE;LIBESEDB_DLL_EXPORT;VOUND_LIBESEDB_BROKEN_CATALOG_DEFINITION_PATCH;LIBESEDB_RECORD_ACCESS_PATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
@@ -188,9 +188,11 @@
     <ClCompile Include="..\..\libesedb\libesedb_page.c" />
     <ClCompile Include="..\..\libesedb\libesedb_page_tree.c" />
     <ClCompile Include="..\..\libesedb\libesedb_record.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_stack_PATCH.c" />
     <ClCompile Include="..\..\libesedb\libesedb_support.c" />
     <ClCompile Include="..\..\libesedb\libesedb_table.c" />
     <ClCompile Include="..\..\libesedb\libesedb_table_definition.c" />
+    <ClCompile Include="..\..\libesedb\libesedb_utils_patch.c" />
     <ClCompile Include="..\..\libesedb\libesedb_values_tree.c" />
     <ClCompile Include="..\..\libesedb\libesedb_values_tree_value.c" />
   </ItemGroup>
@@ -228,6 +230,7 @@
     <ClInclude Include="..\..\libesedb\libesedb_page.h" />
     <ClInclude Include="..\..\libesedb\libesedb_page_tree.h" />
     <ClInclude Include="..\..\libesedb\libesedb_record.h" />
+    <ClInclude Include="..\..\libesedb\libesedb_stack_PATCH.h" />
     <ClInclude Include="..\..\libesedb\libesedb_support.h" />
     <ClInclude Include="..\..\libesedb\libesedb_table.h" />
     <ClInclude Include="..\..\libesedb\libesedb_table_definition.h" />
