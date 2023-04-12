@@ -109,17 +109,17 @@ stamp-h[1-9]
 # Project specific files
 /libesedb.pc
 /libesedb.spec
-/common/config.h
+#/common/config.h
 /common/config.h.in
-/common/types.h
+#/common/types.h
 /dpkg/changelog
 /dpkg/copyright
-/include/libesedb.h
-/include/libesedb/definitions.h
-/include/libesedb/features.h
-/include/libesedb/types.h
-/libesedb/libesedb.rc
-/libesedb/libesedb_definitions.h
+#/include/libesedb.h
+#/include/libesedb/definitions.h
+#/include/libesedb/features.h
+#/include/libesedb/types.h
+#/libesedb/libesedb.rc
+#/libesedb/libesedb_definitions.h
 /pyesedb-python[23]/*.[ch]
 /esedbtools/esedbexport
 /esedbtools/esedbinfo
